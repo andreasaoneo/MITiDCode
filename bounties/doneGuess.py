@@ -1,46 +1,45 @@
-from random import randint
+import random
 
 def play():
-    answer = randint(1,10)
-    guess = 0
-    onehistory = []
-    twohistory = []
-    onetries = 3
-    twotries = 3
-    while onetries >= 0 and twotries >= 0:
-
-        guess = input("Player one, choose a number from 1 to 10 (Tries: %s): " % onetries)
-        while guess.isdigit() == False or guess in onehistory:
-            if guess in onehistory:
-                guess = input("That number has already been used! Try again: ")
+    randomNumber = random.randint(1,10)
+    playerGuess = 0
+    playerOneHistory = []
+    playerTwoHistory = []
+    playerOneTries = 3
+    playerTwoTries = 3
+    while playerOneTries >= 0 and playerTwoTries >= 0: 
+        playerGuess = input("Player one, choose a number from 1 to 10 (Tries: %s): " % playerOneTries)
+        while playerGuess.isdigit() == False or playerGuess in playerOneHistory:
+            if playerGuess in playerOneHistory:
+                playerGuess = input("That number has already been used! Try again: ")
             else:
-                guess = input("Not valid! Please try again: ")
-        onehistory.append(guess)
-        guess = int(guess)
-        if guess == answer:
+                playerGuess = input("Not valid! Please try again: ")
+        playerOneHistory.append(playerGuess)
+        playerGuess = int(playerGuess)
+        if playerGuess == randomNumber:
             print("Correct! Player one has won!")
             return
-        elif guess < answer:
+        elif playerGuess < randomNumber:
             print("Too low!")
-        elif guess > answer:
+        elif playerGuess > randomNumber:
             print("Too high!")
-        onetries -= 1
+        playerOneTries -= 1
 
-        guess = input("Player two, choose a number from 1 to 10 (Tries: %s): " % twotries)
-        while guess.isdigit() == False or guess in twohistory:
-            if guess in twohistory:
-                guess = input("That number has already been used! Try again: ")
+        playerGuess = input("Player two, choose a number from 1 to 10 (Tries: %s): " % playerTwoTries)
+        while playerGuess.isdigit() == False or playerGuess in playerTwoHistory:
+            if playerGuess in playerTwoHistory:
+                playerGuess = input("That number has already been used! Try again: ")
             else:
-                guess = input("Not valid! Please try again: ")
-        twohistory.append(guess)
-        guess = int(guess)
-        if guess == answer:
+                playerGuess = input("Not valid! Please try again: ")
+        playerTwoHistory.append(playerGuess)
+        playerGuess = int(playerGuess)
+        if playerGuess == randomNumber:
             print("Correct! Player two has won!")
             return
-        elif guess < answer:
+        elif playerGuess < randomNumber:
             print("Too low!")
-        elif guess > answer:
+        elif playerGuess > randomNumber:
             print("Too high!")
-        twotries -= 1
+        playerTwoTries -= 1
 
 play()

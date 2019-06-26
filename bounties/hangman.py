@@ -6,7 +6,7 @@ from nltk.corpus import words
 
 
 # Variables
-word = words.words()[random.randint(1,236736)]
+word = (words.words()[random.randint(1,236736)]).lower()
 global hidden
 hidden = []
 global letters
