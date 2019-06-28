@@ -29,22 +29,28 @@ class CNN:
         self.accuracy, self.accuracy_op = tf.metrics.accuracy(self.labels, self.choice)
         one_hot_labels = tf.one_hot(indices=tf.cast(self.labels, dtype=tf.int32), depth=num_classes)
         self.loss = tf.losses.softmax_cross_entropy(onehot_labels=one_hot_labels, logits=outputs)
-        optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.7)
+        optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.066666)
         self.train_operation = optimizer.minimize(loss=self.loss, global_step=tf.train.get_global_step())
 
 # RUNNING the CNN
 
 steps = 10000
-batch_size = 50
-x_train = x_train.reshape(-1, image_height, image_width, 1)
+batch_size = 16
+x_train = (x_train.reshape(-1, image_height, image_width, 1))/255
 test_img = x_test[random.randint(0, 9)]
 plt.imshow(test_img)
 plt.show()
-cnn = CNN(28, 28, 1, 10)
-test_img = test_img.reshape(-1, 28, 28, 1)
+cnn = CNN(image_height, image_width, color_channels, 10)
+test_img = (test_img.reshape(-1, 28, 28, 1))/255
 with tf.Session() as sess:
+    checkpoint = tf.train.get_checkpoint_state(path)
+    saver.restore(sess, checkpoint.model_checkpoint_path)
     sess.run(tf.global_variables_initializer())
     sess.run(tf.local_variables_initializer())
+    # Create a saver.
+    saver = tf.compat.v1.train.Saver()
+    # Launch the graph and train, saving the model every 1,000 steps.
+    sess = tf.compat.v1.Session()
     step = 0
     while step < steps:
         print(sess.run((cnn.train_operation, cnn.accuracy_op), feed_dict = {cnn.input_layer:x_train[step:step+batch_size], cnn.labels:y_train[step:step+batch_size]}))
